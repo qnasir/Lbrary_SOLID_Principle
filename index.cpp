@@ -73,3 +73,41 @@ public:
         cout << "No books matching \"" << bookName << "\" found.\n";
     }
 };
+
+void performSearch(BookSearch* searchStrategy, const string& bookName, const vector<string>& books) {
+    searchStrategy->searchBook(bookName, books);
+}
+
+int main() {
+    BookManager bookManager;
+    InputValidator validator;
+    NotificationSender notifier;
+
+    // Adding books
+    string book1 = "C++ Programming";
+    string book2 = "Design Patterns in C++";
+    string book3 = "SOLID Principles";
+    
+    if (validator.validateBookName(book1)) bookManager.addBook(book1);
+    if (validator.validateBookName(book2)) bookManager.addBook(book2);
+    if (validator.validateBookName(book3)) bookManager.addBook(book3);
+
+    bookManager.displayBooks();
+
+    // Notifications
+    notifier.sendNotification("A new book has been added to the library!");
+
+    // Searching for books (OCP and LSP demonstration)
+    vector<string> books = {book1, book2, book3};
+
+    ExactMatchSearch exactSearch;
+    PartialMatchSearch partialSearch;
+
+    cout << "\n--- Exact Search ---\n";
+    performSearch(&exactSearch, "C++ Programming", books);
+
+    cout << "\n--- Partial Search ---\n";
+    performSearch(&partialSearch, "Design", books);
+
+    return 0;
+}
