@@ -40,3 +40,36 @@ public:
     }
 };
 
+// Base class for searching books
+class BookSearch {
+public:
+    virtual void searchBook(const string& bookName, const vector<string>& books) = 0; // Pure virtual function
+};
+
+// Derived class for exact match search
+class ExactMatchSearch : public BookSearch {
+public:
+    void searchBook(const string& bookName, const vector<string>& books) override {
+        for (const string& book : books) {
+            if (book == bookName) {
+                cout << "Book \"" << bookName << "\" found in the library.\n";
+                return;
+            }
+        }
+        cout << "Book \"" << bookName << "\" not found.\n";
+    }
+};
+
+// Derived class for partial match search
+class PartialMatchSearch : public BookSearch {
+public:
+    void searchBook(const string& bookName, const vector<string>& books) override {
+        for (const string& book : books) {
+            if (book.find(bookName) != string::npos) {
+                cout << "Book \"" << book << "\" matches the search.\n";
+                return;
+            }
+        }
+        cout << "No books matching \"" << bookName << "\" found.\n";
+    }
+};
